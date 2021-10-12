@@ -1,0 +1,44 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="220dp">
+	
+	<com.facebook.shimmer.ShimmerFrameLayout
+			android:id="@+id/shimmer_view_container"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_gravity="center"
+			app:shimmer_base_alpha="0.5"
+			app:shimmer_highlight_alpha="1"
+			app:shimmer_duration="1500">
+		<RelativeLayout
+				android:layout_gravity="center"
+				android:gravity="center"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+			<ImageView
+					android:background="@color/light_grey"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"/>
+			
+			<View
+					android:layout_marginStart="10dp"
+					android:layout_marginBottom="44dp"
+					android:layout_alignParentBottom="true"
+					android:id="@+id/shimmer_text"
+					android:background="@color/slate_grey"
+					android:layout_width="40dp"
+					android:layout_height="16dp"/>
+			<View
+					android:layout_margin="10dp"
+					android:layout_alignParentBottom="true"
+					android:background="@color/slate_grey"
+					android:layout_width="100dp"
+					android:layout_height="24dp"/>
+		
+		</RelativeLayout>
+	</com.facebook.shimmer.ShimmerFrameLayout>
+
+</FrameLayout>

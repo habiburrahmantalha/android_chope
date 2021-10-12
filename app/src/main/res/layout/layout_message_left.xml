@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="message"
+            type="com.tree.chope.backend.data.Message" />
+        <variable
+            name="viewModel"
+            type="com.tree.chope.ui.chat.ChatViewModel" />
+    </data>
+
+    <LinearLayout
+
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/profile_name"
+            android:layout_width="32dp"
+            android:layout_height="32dp">
+            <TextView
+                android:textAllCaps="true"
+                android:textAlignment="center"
+                android:layout_centerInParent="true"
+                android:id="@+id/tv_initial"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:text="@{String.valueOf(message.name.charAt(0)).toUpperCase()}"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:maxLength="25"
+                android:ellipsize="end"
+                app:visibility="@{message.message}"
+                android:textColor="@color/slate_grey"
+                android:maxLines="2"
+                android:paddingEnd="16dp"
+                android:text="@{message.message}"
+                android:id="@+id/tv_text"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_below="@id/tv_text"
+                android:textColor="@color/slate_grey"
+                android:maxLines="2"
+                android:paddingEnd="16dp"
+                app:timeText="@{message.createdAt}"
+                android:id="@+id/tv_time"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

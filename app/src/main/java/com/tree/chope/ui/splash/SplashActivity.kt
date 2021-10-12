@@ -26,14 +26,14 @@ class SplashActivity : AppCompatActivity() {
 
 
         GlobalScope.launch(context = Dispatchers.Main) {
-            delay(20000)
+            delay(2000)
             viewModel.checkIsLoggedIn()
         }
 
         viewModel.isLoggedIn.observe(this, {
             when {
                 it -> navigateToHome()
-                //else -> navigateToStart()
+                else -> navigateToHome()
             }
         })
     }

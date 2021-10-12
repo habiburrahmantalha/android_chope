@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChopeAssessment">
         <activity
+            android:name=".ui.chat.ChatActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
