@@ -17,11 +17,8 @@ class HomeViewModel @Inject constructor(private val preferenceHelper: Preference
     val chatLiveData: MutableLiveData<ChatHistory> = MutableLiveData()
 
     fun prepareChatHistory(){
-        val chatHistory: MutableList<ChatHistory?> = mutableListOf()
-        chatHistory.add(ChatHistory(id = 1, name = "Jone", createdAt = "2021-10-13 12:45:36", lastMessage = "How are you?"))
-        chatHistory.add(ChatHistory(id = 1, name = "Kent"))
-
-        chatHistoryLiveData.postValue(chatHistory);
+        val list : List<ChatHistory> =  preferenceHelper.getChatHistory();
+        chatHistoryLiveData.postValue(list);
     }
 
     fun onChatItemClicked(chat: ChatHistory) {

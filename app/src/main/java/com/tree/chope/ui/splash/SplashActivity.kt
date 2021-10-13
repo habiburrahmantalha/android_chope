@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
 
         GlobalScope.launch(context = Dispatchers.Main) {
             delay(2000)
-            viewModel.checkIsLoggedIn()
+            viewModel.prepareChatHistory()
         }
 
         viewModel.isLoggedIn.observe(this, {
@@ -37,12 +37,6 @@ class SplashActivity : AppCompatActivity() {
             }
         })
     }
-
-//    private fun navigateToStart() {
-//        val intent = Intent(this, Activity::class.java)
-//        startActivity(intent)
-//        finish()
-//    }
 
     private fun navigateToHome() {
         val intent = Intent(this, MainActivity::class.java)

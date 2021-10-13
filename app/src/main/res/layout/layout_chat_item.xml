@@ -14,7 +14,8 @@
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="4dp"
         app:cardBackgroundColor="@color/white"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
         android:onClick="@{()->viewModel.onChatItemClicked(chat)}"
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"

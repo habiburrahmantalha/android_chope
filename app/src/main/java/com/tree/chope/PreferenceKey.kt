@@ -1,8 +1,8 @@
 package com.tree.chope
 
 enum class PreferenceKey(val key: String) {
-    TOKEN("TOKEN"),
+
     USER("USER"),
-    LOGGED_IN("LOGGED_IN"),
     CONVERSATION("RECENT_SEARCH"),
+    HISTORY("HISTORY"),
 }

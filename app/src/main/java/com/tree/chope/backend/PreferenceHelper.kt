@@ -1,11 +1,13 @@
 package com.tree.chope.backend
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.tree.chope.PreferenceKey
+import com.tree.chope.backend.data.ChatHistory
 import com.tree.chope.backend.data.Message
 
 class PreferenceHelper(private val prefs: SharedPreferences) {
@@ -54,7 +56,7 @@ class PreferenceHelper(private val prefs: SharedPreferences) {
     fun getConversation(id: Int?): List<Message>{
         val s = read(PreferenceKey.CONVERSATION.name+"_$id","").takeIf { i-> !i.isNullOrEmpty()}.orEmpty()
         val listType = Types.newParameterizedType(List::class.java, Message::class.java)
-        val adapter: JsonAdapter<MutableList<Message>> = Moshi.Builder().build().adapter(listType)
+        val adapter: JsonAdapter<MutableList<Message>> = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(listType)
         val result = adapter.fromJson(s)
         result?.let { list ->
             return list
@@ -79,6 +81,26 @@ class PreferenceHelper(private val prefs: SharedPreferences) {
                 write(PreferenceKey.CONVERSATION.name+"_$id", adapter.toJson(list) )
             }
         }
+    }
+
+    fun getChatHistory(): List<ChatHistory>{
+        val s = read(PreferenceKey.HISTORY.name,"").takeIf { i-> !i.isNullOrEmpty()}.orEmpty()
+        if(s.isNotBlank()) {
+            val listType = Types.newParameterizedType(List::class.java, ChatHistory::class.java)
+            val adapter: JsonAdapter<MutableList<ChatHistory>> = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(listType)
+            Log.d("History", s)
+            val result = adapter.fromJson(s)
+            result?.let { list ->
+                return list
+            }
+        }
+        return listOf()
+    }
+
+    fun addChatHistory(chatHistory: MutableList<ChatHistory>) {
+        val listType = Types.newParameterizedType(List::class.java, ChatHistory::class.java)
+        val adapter: JsonAdapter<MutableList<ChatHistory>> = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(listType)
+        write(PreferenceKey.HISTORY.name, adapter.toJson(chatHistory) )
     }
 
 }
