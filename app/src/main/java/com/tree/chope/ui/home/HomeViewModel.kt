@@ -16,6 +16,8 @@ class HomeViewModel @Inject constructor(private val preferenceHelper: Preference
     val chatHistoryLiveData: MutableLiveData<List<ChatHistory?>> = MutableLiveData()
     val chatLiveData: MutableLiveData<ChatHistory> = MutableLiveData()
 
+    val restartLiveData: MutableLiveData<Boolean> = MutableLiveData()
+
     fun prepareChatHistory(){
         val list : List<ChatHistory> =  preferenceHelper.getChatHistory();
         chatHistoryLiveData.postValue(list);
@@ -23,5 +25,11 @@ class HomeViewModel @Inject constructor(private val preferenceHelper: Preference
 
     fun onChatItemClicked(chat: ChatHistory) {
         chatLiveData.postValue(chat)
+    }
+
+    fun clearData() {
+
+        preferenceHelper.clear()
+        restartLiveData.postValue(true)
     }
 }

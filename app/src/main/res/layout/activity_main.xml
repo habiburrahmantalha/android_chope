@@ -10,14 +10,31 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
+        app:title="My Friends"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="My Friends"
-        app:titleTextColor="@color/black" />
+        app:titleTextColor="@color/black">
+        <RelativeLayout
+            android:layout_gravity="end"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/button_clear"
+                android:layout_alignParentEnd="true"
+                android:text="Clear"
+                android:textColor="@color/faded_red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:paddingTop="16dp"

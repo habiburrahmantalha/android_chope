@@ -6,6 +6,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.widget.Button
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tree.chope.R
 import com.tree.chope.backend.data.ChatHistory
 import com.tree.chope.ui.chat.ChatActivity
+import com.tree.chope.ui.splash.SplashActivity
 import com.tree.chope.ui.splash.SplashViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initView()
-        viewModel.prepareChatHistory()
     }
 
     private fun initView() {
@@ -54,6 +56,18 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.restartLiveData.observe(this, {
+
+            val intent = Intent(this, SplashActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        })
+        val clearButton = findViewById<Button>(R.id.button_clear)
+        clearButton.setOnClickListener {
+            viewModel.clearData()
+        }
+
+
     }
     private fun navigateToChat(chat: ChatHistory?) {
         chat?.let {
@@ -61,5 +75,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ChatActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.prepareChatHistory()
     }
 }

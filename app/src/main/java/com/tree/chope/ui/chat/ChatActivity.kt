@@ -2,12 +2,16 @@ package com.tree.chope.ui.chat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.tree.chope.R
 import com.tree.chope.backend.data.ChatHistory
 import com.tree.chope.ui.home.HomeViewModel
@@ -38,6 +42,7 @@ class ChatActivity : AppCompatActivity(), View.OnClickListener {
             onClick(findViewById(R.id.toolbar))
         }
         toolbar.title = chatHistory.name
+
         viewModel.setChatHistory(chatHistory)
 
         initView()
@@ -47,32 +52,27 @@ class ChatActivity : AppCompatActivity(), View.OnClickListener {
     private fun initView() {
 
         val sendButton = findViewById<Button>(R.id.button_chat_send)
+        val rvConversation = findViewById<RecyclerView>(R.id.rv_conversation)
         sendButton.setOnClickListener(this);
-//        tv_category_name.text = category.name
-//        if( rv_stories.itemDecorationCount > 0){
-//            rv_stories.removeItemDecorationAt(0)
-//        }
-//        rv_stories.addItemDecoration(
-//            ItemDecoration(
-//                convertDpToPixel(8, this),
-//                convertDpToPixel(16, this),
-//                grid = true
-//            )
-//        )
-//        rv_stories.layoutManager = GridLayoutManager(this, 2)
-//        val adapter = StoriesAdapter(listOf(), viewModel.get() as StoriesVM)
-//        rv_stories.adapter = adapter
-//
-//        setListeners()
-//        viewModel.loadData(category.id!!)
-//
-//        viewModel.get().storyLiveData.observe(this, Observer {
-//            navigateToStory(it)
-//        })
-//        viewModel.get().StoryListLiveData.observe(this, Observer {
-//            adapter.updateList(it)
-//        })
 
+        if( rvConversation.itemDecorationCount > 0){
+            rvConversation.removeItemDecorationAt(0)
+        }
+
+        rvConversation.layoutManager = LinearLayoutManager(this)
+        val adapter = ChatAdapter(listOf(), viewModel as ChatViewModel)
+        rvConversation.adapter = adapter
+
+        viewModel.conversationLiveData.observe(this, Observer {
+            adapter.updateList(it)
+            rvConversation.scrollToPosition(it.size-1)
+        })
+
+        val et = findViewById<EditText>(R.id.edit_chat_message)
+        et.setOnFocusChangeListener { _, focus ->
+            rvConversation.scrollToPosition(adapter.itemCount - 1)
+            Log.d("Focus Change",focus.toString() )
+        }
     }
 
 
@@ -82,10 +82,10 @@ class ChatActivity : AppCompatActivity(), View.OnClickListener {
                 onBackPressed()
             }
             R.id.button_chat_send -> {
-
                 val et = findViewById<EditText>(R.id.edit_chat_message)
+
                 viewModel.sendText(et.text.toString());
-                et.clearComposingText()
+                et.text.clear()
             }
         }
     }

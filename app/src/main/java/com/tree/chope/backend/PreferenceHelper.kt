@@ -55,19 +55,22 @@ class PreferenceHelper(private val prefs: SharedPreferences) {
 
     fun getConversation(id: Int?): List<Message>{
         val s = read(PreferenceKey.CONVERSATION.name+"_$id","").takeIf { i-> !i.isNullOrEmpty()}.orEmpty()
-        val listType = Types.newParameterizedType(List::class.java, Message::class.java)
-        val adapter: JsonAdapter<MutableList<Message>> = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(listType)
-        val result = adapter.fromJson(s)
-        result?.let { list ->
-            return list
+        if(s.isNotEmpty()) {
+            val listType = Types.newParameterizedType(List::class.java, Message::class.java)
+            val adapter: JsonAdapter<MutableList<Message>> = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(listType)
+            val result = adapter.fromJson(s)
+            result?.let { list ->
+                return list
+            }
         }
         return listOf()
     }
 
-    fun addConversation(id: Int?, message: Message) {
+    fun addConversation(id: Int?,message: Message) {
         val s = read(PreferenceKey.CONVERSATION.name+"_$id","")
         if(s.isNullOrEmpty()){
             val list: MutableList<Message> = mutableListOf()
+            message.id = 1
             list.add(message)
             val listType = Types.newParameterizedType(List::class.java, Message::class.java)
             val adapter: JsonAdapter<List<Message>> = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(listType)
@@ -77,10 +80,26 @@ class PreferenceHelper(private val prefs: SharedPreferences) {
             val adapter: JsonAdapter<MutableList<Message>> = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(listType)
             val result = adapter.fromJson(s)
             result?.let { list ->
+                message.id = list.size
                 list.add(message)
                 write(PreferenceKey.CONVERSATION.name+"_$id", adapter.toJson(list) )
             }
         }
+        if(message.userId != 1) {
+            updateChatHistory(id, message)
+        }
+    }
+
+    private fun updateChatHistory(id: Int?, message: Message) {
+
+        val list: MutableList<ChatHistory> = getChatHistory().toMutableList()
+
+        val i = list.indexOfFirst { it.id == id }
+        if(i>=0){
+            list[i] = ChatHistory(id = id, userId = message.userId, createdAt = message.createdAt, lastMessage =  message.message, name = message.name)
+        }
+
+        addChatHistory(list);
     }
 
     fun getChatHistory(): List<ChatHistory>{

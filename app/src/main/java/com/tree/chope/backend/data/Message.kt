@@ -5,17 +5,17 @@ import com.squareup.moshi.Json
 data class Message(
 
 	@Json(name="user_id")
-	val userId: Int? = null,
+	var userId: Int? = null,
 
 	@Json(name="name")
-	val name: String? = null,
+	var name: String? = null,
 
 	@Json(name="created_at")
-	val createdAt: String? = null,
+	var createdAt: String? = null,
 
 	@Json(name="id")
-	val id: Int? = null,
+	var id: Int? = null,
 
 	@Json(name="message")
-	val message: String? = null
+	var message: String? = null
 )

@@ -14,4 +14,8 @@
     <color name="slate_grey">#54545c</color>
     <color name="blue_grey">#8d8d99</color>
     <color name="pale_grey">#D1D0D0</color>
+    <color name="faded_red">#db304c</color>
+
+    <color name="purple_100">#D1C4E9</color>
+    <color name="teal_100">#B2EBF2</color>
 </resources>

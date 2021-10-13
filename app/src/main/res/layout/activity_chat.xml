@@ -20,8 +20,8 @@
         app:titleTextColor="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/rv_chats"
+        android:layout_above="@id/view"
+        android:id="@+id/rv_conversation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
@@ -33,11 +33,12 @@
         android:layout_height="1dp"
         android:background="#e0e0e0" />
     <RelativeLayout
+        android:padding="8dp"
+        android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:id="@+id/layout_chatbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <EditText
             android:layout_marginStart="16dp"
